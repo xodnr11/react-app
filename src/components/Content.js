@@ -2,10 +2,12 @@ import { Component } from 'react';
 
 class Content extends Component {
     render() {
+      console.log('Content render');
+
       return (
         <header>
           <h3>{this.props.title}</h3>
-          world wide web!!
+          {this.props.decs}
         </header>
       );
     }

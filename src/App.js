@@ -8,7 +8,8 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      mode:'welcome',
+      mode:'welcome', //props와 state 값이 바뀌면 render 함수가 다시 실행된다.
+      welcome:{title:'Welcome', decs:'Hello, React!'},
       subject:{title:"Web", sub:'World Wide Web!'},
       contents:[
         {id:1, title:'HTML', decs:'HTML is for information ...'},
@@ -18,15 +19,33 @@ class App extends Component {
     }
   }
   render() {
+    console.log('app render');
+    var _title, _decs = null;
+
+    if(this.state.mode === 'welcome') {
+      _title = this.state.welcome.title;
+      _decs = this.state.welcome.decs;
+    } else if(this.state.mode === 'read') {
+      _title = this.state.contents[0].title;
+      _decs = this.state.contents[0].decs;
+    }
     return (
       <div className="App">
-        <Subject 
+        {/* <Subject 
           title={this.state.subject.title}
           sub={this.state.subject.sub}>
-
-        </Subject>
+        </Subject> */}
+        <header>
+          <h1><a href='/' onClick={function(e){
+            console.log(e);
+            e.preventDefault();
+            alert('hi');
+          }}>{this.state.subject.title}</a></h1>
+          {this.state.subject.sub}
+        </header>
         <TOC data={this.state.contents}></TOC>
-        <Content title="html"></Content>
+
+        <Content title={_title} decs={_decs}></Content>
       </div>
     );
   }
