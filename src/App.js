@@ -9,6 +9,7 @@ class App extends Component {
     super(props);
     this.state = {
       mode:'welcome', //props와 state 값이 바뀌면 render 함수가 다시 실행된다.
+      selected_id:2,
       welcome:{title:'Welcome', decs:'Hello, React!'},
       subject:{title:"Web", sub:'World Wide Web!'},
       contents:[
@@ -26,8 +27,16 @@ class App extends Component {
       _title = this.state.welcome.title;
       _decs = this.state.welcome.decs;
     } else if(this.state.mode === 'read') {
-      _title = this.state.contents[0].title;
-      _decs = this.state.contents[0].decs;
+      var i = 0;
+      while(i < this.state.contents.length) {
+        var data = this.state.contents[i];
+        if(data.id === this.state.selected_id) {
+          _title = data.title;
+          _decs = data.decs;
+          break;
+        }
+        i++;
+      }
     }
     return (
       <div className="App">
@@ -41,8 +50,11 @@ class App extends Component {
 
         <TOC
           data={this.state.contents}
-          onChangePage = {function(){
-            alert('gg');
+          onChangePage = {function(id){
+            this.setState({
+              mode:'read',
+              selected_id : Number(id)
+            })
           }.bind(this)}>
         </TOC>
 
