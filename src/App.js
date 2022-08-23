@@ -1,13 +1,15 @@
 import './App.css';
 import { Component } from 'react';
-import Content from './components/Content';
+import ReadContent from './components/ReadContent';
 import Subject from './components/Subject';
 import TOC from './components/TOC';
 import Control from './components/Control';
+import CreateContent from './components/CreateContent';
 
 class App extends Component {
   constructor(props){
     super(props);
+    this.max_content_id = 3;
     this.state = {
       mode:'welcome', //props와 state 값이 바뀌면 render 함수가 다시 실행된다.
       selected_id:2,
@@ -22,11 +24,12 @@ class App extends Component {
   }
   render() {
     console.log('app render');
-    var _title, _decs = null;
+    var _title, _decs, _article = null;
 
     if(this.state.mode === 'welcome') {
       _title = this.state.welcome.title;
       _decs = this.state.welcome.decs;
+      _article = <ReadContent title={_title} decs={_decs}></ReadContent>
     } else if(this.state.mode === 'read') {
       var i = 0;
       while(i < this.state.contents.length) {
@@ -38,6 +41,17 @@ class App extends Component {
         }
         i++;
       }
+      _article = <ReadContent title={_title} decs={_decs}></ReadContent>
+    } else if(this.state.mode === 'create') {
+      _article = <CreateContent onSubmit={function(_title,_decs) {
+        this.max_content_id = this.max_content_id + 1;
+        var _contents = this.state.contents.concat(
+          {id:this.max_content_id, title:_title, decs:_decs}
+        )
+        this.setState({
+          contents:_contents
+        })
+      }.bind(this)}></CreateContent>
     }
     return (
       <div className="App">
@@ -65,7 +79,7 @@ class App extends Component {
           })
         }.bind(this)}></Control>
 
-        <Content title={_title} decs={_decs}></Content>
+        {_article}
       </div>
     );
   }

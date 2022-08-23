@@ -1,16 +1,16 @@
 import { Component } from 'react';
 
-class Content extends Component {
+class ReadContent extends Component {
     render() {
       console.log('Content render');
 
       return (
-        <header>
+        <article>
           <h3>{this.props.title}</h3>
           {this.props.decs}
-        </header>
+        </article>
       );
     }
   }
 
-  export default Content;
+  export default ReadContent;
